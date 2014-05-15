@@ -39,4 +39,17 @@ mean(stepsByDate$steps)
 median(stepsByDate$steps)
 ```
 
+Create data frame of avergage steps taken at a time interval accross all days.
+```{r}
+AvgstepsByInterval <-aggregate(activityComplete$steps, by=list(Category=activityComplete$interval),FUN=mean)
+names(AvgstepsByInterval) <- c("interval", "steps")
+summary(AvgstepsByInterval)
+str(AvgstepsByInterval)
+```
+
+Create line plot
+```{r}
+plot(AvgstepsByInterval$interval,AvgstepsByInterval$steps, type="l")
+```
+
 
