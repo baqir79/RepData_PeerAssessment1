@@ -52,4 +52,36 @@ Create line plot
 plot(AvgstepsByInterval$interval,AvgstepsByInterval$steps, type="l")
 ```
 
+Calculate number of rows coded as NA
+```{r}
+sum(is.na(activity$steps))
+```
 
+Merge the average steps by interval with the activity table
+```{r}
+mergeActivity <- merge(activity, AvgstepsByInterval, by.x = "interval", by.y="interval", all=TRUE)
+```
+Replace all NA values in steps with the average steps for that interval
+```{r}
+mergeActivity <- transform(mergeActivity, steps.x = ifelse(is.na(steps.x),steps.y,steps.x))
+mergeActivity <- data.frame(mergeActivity[,c(1,2,3)])
+names(mergeActivity) <- c("interval", "steps", "date")
+summary(mergeActivity)
+str(mergeActivity)
+```
+Create a dataframe with aggregated steps taken each day for the new dataset
+``` {r}
+stepsByDate <-aggregate(mergeActivity$steps, by=list(Category=mergeActivity$date),FUN=sum)
+names(stepsByDate) <- c("date", "steps")
+summary(stepsByDate)
+str(stepsByDate)
+```
+Create histogram of steps taken each day for the new dataset
+```{r}
+hist(stepsByDate$steps)
+```
+Calculate mean and media total number of steps taken per day for the new dataset
+```{r}
+mean(stepsByDate$steps)
+median(stepsByDate$steps)
+```

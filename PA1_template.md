@@ -164,4 +164,109 @@ plot(AvgstepsByInterval$interval, AvgstepsByInterval$steps, type = "l")
 ![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
 
 
+Calculate number of rows coded as NA
+
+```r
+sum(is.na(activity$steps))
+```
+
+```
+## [1] 2304
+```
+
+
+Merge the average steps by interval with the activity table
+
+```r
+mergeActivity <- merge(activity, AvgstepsByInterval, by.x = "interval", by.y = "interval", 
+    all = TRUE)
+```
+
+Replace all NA values in steps with the average steps for that interval
+
+```r
+mergeActivity <- transform(mergeActivity, steps.x = ifelse(is.na(steps.x), steps.y, 
+    steps.x))
+mergeActivity <- data.frame(mergeActivity[, c(1, 2, 3)])
+names(mergeActivity) <- c("interval", "steps", "date")
+summary(mergeActivity)
+```
+
+```
+##     interval        steps               date      
+##  Min.   :   0   Min.   :  0.0   2012-10-01:  288  
+##  1st Qu.: 589   1st Qu.:  0.0   2012-10-02:  288  
+##  Median :1178   Median :  0.0   2012-10-03:  288  
+##  Mean   :1178   Mean   : 37.4   2012-10-04:  288  
+##  3rd Qu.:1766   3rd Qu.: 27.0   2012-10-05:  288  
+##  Max.   :2355   Max.   :806.0   2012-10-06:  288  
+##                                 (Other)   :15840
+```
+
+```r
+str(mergeActivity)
+```
+
+```
+## 'data.frame':	17568 obs. of  3 variables:
+##  $ interval: int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ steps   : num  1.72 0 0 0 0 ...
+##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 54 28 37 55 46 20 47 38 56 ...
+```
+
+Create a dataframe with aggregated steps taken each day for the new dataset
+
+```r
+stepsByDate <- aggregate(mergeActivity$steps, by = list(Category = mergeActivity$date), 
+    FUN = sum)
+names(stepsByDate) <- c("date", "steps")
+summary(stepsByDate)
+```
+
+```
+##          date        steps      
+##  2012-10-01: 1   Min.   :   41  
+##  2012-10-02: 1   1st Qu.: 9819  
+##  2012-10-03: 1   Median :10766  
+##  2012-10-04: 1   Mean   :10766  
+##  2012-10-05: 1   3rd Qu.:12811  
+##  2012-10-06: 1   Max.   :21194  
+##  (Other)   :55
+```
+
+```r
+str(stepsByDate)
+```
+
+```
+## 'data.frame':	61 obs. of  2 variables:
+##  $ date : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 2 3 4 5 6 7 8 9 10 ...
+##  $ steps: num  10766 126 11352 12116 13294 ...
+```
+
+Create histogram of steps taken each day for the new dataset
+
+```r
+hist(stepsByDate$steps)
+```
+
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+
+Calculate mean and media total number of steps taken per day for the new dataset
+
+```r
+mean(stepsByDate$steps)
+```
+
+```
+## [1] 10766
+```
+
+```r
+median(stepsByDate$steps)
+```
+
+```
+## [1] 10766
+```
 
