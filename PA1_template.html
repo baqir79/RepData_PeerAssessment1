@@ -183,7 +183,7 @@ hljs.initHighlightingOnLoad();
 
 <p>This is my first R markdown file.</p>
 
-<p>Here, I am going to load the activity.csv file into R.</p>
+<p>Load the activity.csv file into R.</p>
 
 <pre><code class="r">activity &lt;- read.csv(&quot;./Data/activity.csv&quot;)
 summary(activity)
@@ -208,7 +208,7 @@ summary(activity)
 ##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 </code></pre>
 
-<p>I am now going to remove the NA values using the complete function and store it into the a new data frame.</p>
+<p>Remove the NA values using the complete function and store it into the a new data frame.</p>
 
 <pre><code class="r">activityComplete &lt;- activity[complete.cases(activity), ]
 summary(activityComplete)
@@ -231,6 +231,32 @@ summary(activityComplete)
 ##  $ steps   : int  0 0 0 0 0 0 0 0 0 0 ...
 ##  $ date    : Factor w/ 61 levels &quot;2012-10-01&quot;,&quot;2012-10-02&quot;,..: 2 2 2 2 2 2 2 2 2 2 ...
 ##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+</code></pre>
+
+<p>Create a dataframe with aggregated steps taken each day.</p>
+
+<pre><code class="r">stepsByDate &lt;- aggregate(activityComplete$steps, by = list(Category = activityComplete$date), 
+    FUN = sum)
+names(stepsByDate) &lt;- c(&quot;date&quot;, &quot;steps&quot;)
+summary(stepsByDate)
+</code></pre>
+
+<pre><code>##          date        steps      
+##  2012-10-02: 1   Min.   :   41  
+##  2012-10-03: 1   1st Qu.: 8841  
+##  2012-10-04: 1   Median :10765  
+##  2012-10-05: 1   Mean   :10766  
+##  2012-10-06: 1   3rd Qu.:13294  
+##  2012-10-07: 1   Max.   :21194  
+##  (Other)   :47
+</code></pre>
+
+<pre><code class="r">str(stepsByDate)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    53 obs. of  2 variables:
+##  $ date : Factor w/ 61 levels &quot;2012-10-01&quot;,&quot;2012-10-02&quot;,..: 2 3 4 5 6 7 9 10 11 12 ...
+##  $ steps: int  126 11352 12116 13294 15420 11015 12811 9900 10304 17382 ...
 </code></pre>
 
 </body>

@@ -3,7 +3,7 @@ Reproducible Data Peer Assignment 1
 
 This is my first R markdown file.
 
-Here, I am going to load the activity.csv file into R.
+Load the activity.csv file into R.
 
 ```{r}
 activity <- read.csv("./Data/activity.csv")
@@ -11,10 +11,19 @@ summary (activity)
 str(activity)
 ```
 
-I am now going to remove the NA values using the complete function and store it into the a new data frame.
+Remove the NA values using the complete function and store it into the a new data frame.
 
 ```{r}
 activityComplete <- activity[complete.cases(activity),]
 summary (activityComplete)
 str(activityComplete)
+```
+
+Create a dataframe with aggregated steps taken each day.
+
+``` {r}
+stepsByDate <-aggregate(activityComplete$steps, by=list(Category=activityComplete$date),FUN=sum)
+names(stepsByDate) <- c("date", "steps")
+summary(stepsByDate)
+str(stepsByDate)
 ```

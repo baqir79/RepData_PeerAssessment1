@@ -3,7 +3,7 @@ Reproducible Data Peer Assignment 1
 
 This is my first R markdown file.
 
-Here, I am going to load the activity.csv file into R.
+Load the activity.csv file into R.
 
 
 ```r
@@ -34,7 +34,7 @@ str(activity)
 ```
 
 
-I am now going to remove the NA values using the complete function and store it into the a new data frame.
+Remove the NA values using the complete function and store it into the a new data frame.
 
 
 ```r
@@ -62,5 +62,37 @@ str(activityComplete)
 ##  $ steps   : int  0 0 0 0 0 0 0 0 0 0 ...
 ##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 2 2 2 2 2 2 2 2 2 2 ...
 ##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+```
+
+
+Create a dataframe with aggregated steps taken each day.
+
+
+```r
+stepsByDate <- aggregate(activityComplete$steps, by = list(Category = activityComplete$date), 
+    FUN = sum)
+names(stepsByDate) <- c("date", "steps")
+summary(stepsByDate)
+```
+
+```
+##          date        steps      
+##  2012-10-02: 1   Min.   :   41  
+##  2012-10-03: 1   1st Qu.: 8841  
+##  2012-10-04: 1   Median :10765  
+##  2012-10-05: 1   Mean   :10766  
+##  2012-10-06: 1   3rd Qu.:13294  
+##  2012-10-07: 1   Max.   :21194  
+##  (Other)   :47
+```
+
+```r
+str(stepsByDate)
+```
+
+```
+## 'data.frame':	53 obs. of  2 variables:
+##  $ date : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 2 3 4 5 6 7 9 10 11 12 ...
+##  $ steps: int  126 11352 12116 13294 15420 11015 12811 9900 10304 17382 ...
 ```
 
