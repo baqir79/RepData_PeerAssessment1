@@ -85,3 +85,22 @@ Calculate mean and media total number of steps taken per day for the new dataset
 mean(stepsByDate$steps)
 median(stepsByDate$steps)
 ```
+Append Day of week to the dataframe with the NA replaced
+```{r}
+mergeActivity$DayOfWeek <-weekdays(as.POSIXlt(mergeActivity$date, format="%Y-%m-%d"))
+```
+Set factor variables for Weekend
+```{r}
+mergeActivity$DayType
+```
+
+
+
+Create data frame of avergage steps taken at a time interval accross all days for the new dataset
+```{r}
+AvgstepsByInterval <-aggregate(mergeActivity$steps, by=list(Category=mergeActivity$interval),FUN=mean)
+names(AvgstepsByInterval) <- c("interval", "steps")
+summary(AvgstepsByInterval)
+str(AvgstepsByInterval)
+```
+

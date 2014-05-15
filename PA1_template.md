@@ -270,3 +270,52 @@ median(stepsByDate$steps)
 ## [1] 10766
 ```
 
+Append Day of week to the dataframe with the NA replaced
+
+```r
+mergeActivity$DayOfWeek <- weekdays(as.POSIXlt(mergeActivity$date, format = "%Y-%m-%d"))
+```
+
+Set factor variables for Weekend
+
+```r
+mergeActivity$DayType
+```
+
+```
+## NULL
+```
+
+
+
+
+Create data frame of avergage steps taken at a time interval accross all days for the new dataset
+
+```r
+AvgstepsByInterval <- aggregate(mergeActivity$steps, by = list(Category = mergeActivity$interval), 
+    FUN = mean)
+names(AvgstepsByInterval) <- c("interval", "steps")
+summary(AvgstepsByInterval)
+```
+
+```
+##     interval        steps       
+##  Min.   :   0   Min.   :  0.00  
+##  1st Qu.: 589   1st Qu.:  2.49  
+##  Median :1178   Median : 34.11  
+##  Mean   :1178   Mean   : 37.38  
+##  3rd Qu.:1766   3rd Qu.: 52.83  
+##  Max.   :2355   Max.   :206.17
+```
+
+```r
+str(AvgstepsByInterval)
+```
+
+```
+## 'data.frame':	288 obs. of  2 variables:
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+##  $ steps   : num  1.717 0.3396 0.1321 0.1509 0.0755 ...
+```
+
+

@@ -401,6 +401,44 @@ summary(stepsByDate)
 <pre><code>## [1] 10766
 </code></pre>
 
+<p>Append Day of week to the dataframe with the NA replaced</p>
+
+<pre><code class="r">mergeActivity$DayOfWeek &lt;- weekdays(as.POSIXlt(mergeActivity$date, format = &quot;%Y-%m-%d&quot;))
+</code></pre>
+
+<p>Set factor variables for Weekend</p>
+
+<pre><code class="r">mergeActivity$DayType
+</code></pre>
+
+<pre><code>## NULL
+</code></pre>
+
+<p>Create data frame of avergage steps taken at a time interval accross all days for the new dataset</p>
+
+<pre><code class="r">AvgstepsByInterval &lt;- aggregate(mergeActivity$steps, by = list(Category = mergeActivity$interval), 
+    FUN = mean)
+names(AvgstepsByInterval) &lt;- c(&quot;interval&quot;, &quot;steps&quot;)
+summary(AvgstepsByInterval)
+</code></pre>
+
+<pre><code>##     interval        steps       
+##  Min.   :   0   Min.   :  0.00  
+##  1st Qu.: 589   1st Qu.:  2.49  
+##  Median :1178   Median : 34.11  
+##  Mean   :1178   Mean   : 37.38  
+##  3rd Qu.:1766   3rd Qu.: 52.83  
+##  Max.   :2355   Max.   :206.17
+</code></pre>
+
+<pre><code class="r">str(AvgstepsByInterval)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    288 obs. of  2 variables:
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+##  $ steps   : num  1.717 0.3396 0.1321 0.1509 0.0755 ...
+</code></pre>
+
 </body>
 
 </html>
