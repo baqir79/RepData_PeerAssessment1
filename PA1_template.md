@@ -125,4 +125,43 @@ median(stepsByDate$steps)
 ```
 
 
+Create data frame of avergage steps taken at a time interval accross all days.
+
+```r
+AvgstepsByInterval <- aggregate(activityComplete$steps, by = list(Category = activityComplete$interval), 
+    FUN = mean)
+names(AvgstepsByInterval) <- c("interval", "steps")
+summary(AvgstepsByInterval)
+```
+
+```
+##     interval        steps       
+##  Min.   :   0   Min.   :  0.00  
+##  1st Qu.: 589   1st Qu.:  2.49  
+##  Median :1178   Median : 34.11  
+##  Mean   :1178   Mean   : 37.38  
+##  3rd Qu.:1766   3rd Qu.: 52.83  
+##  Max.   :2355   Max.   :206.17
+```
+
+```r
+str(AvgstepsByInterval)
+```
+
+```
+## 'data.frame':	288 obs. of  2 variables:
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+##  $ steps   : num  1.717 0.3396 0.1321 0.1509 0.0755 ...
+```
+
+
+Create line plot
+
+```r
+plot(AvgstepsByInterval$interval, AvgstepsByInterval$steps, type = "l")
+```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+
+
 
