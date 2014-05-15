@@ -96,3 +96,33 @@ str(stepsByDate)
 ##  $ steps: int  126 11352 12116 13294 15420 11015 12811 9900 10304 17382 ...
 ```
 
+
+Create histogram of steps taken each day.
+
+```r
+hist(stepsByDate$steps)
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+
+
+Calculate mean and media total number of steps taken per day.
+
+```r
+mean(stepsByDate$steps)
+```
+
+```
+## [1] 10766
+```
+
+```r
+median(stepsByDate$steps)
+```
+
+```
+## [1] 10765
+```
+
+
+

@@ -27,3 +27,16 @@ names(stepsByDate) <- c("date", "steps")
 summary(stepsByDate)
 str(stepsByDate)
 ```
+
+Create histogram of steps taken each day.
+```{r}
+hist(stepsByDate$steps)
+```
+
+Calculate mean and media total number of steps taken per day.
+```{r}
+mean(stepsByDate$steps)
+median(stepsByDate$steps)
+```
+
+
