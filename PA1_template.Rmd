@@ -39,7 +39,7 @@ mean(stepsByDate$steps)
 median(stepsByDate$steps)
 ```
 
-Create data frame of avergage steps taken at a time interval accross all days.
+Create data frame of average steps taken at a time interval accross all days.
 ```{r}
 AvgstepsByInterval <-aggregate(activityComplete$steps, by=list(Category=activityComplete$interval),FUN=mean)
 names(AvgstepsByInterval) <- c("interval", "steps")
@@ -89,18 +89,16 @@ Append Day of week to the dataframe with the NA replaced
 ```{r}
 mergeActivity$DayOfWeek <-weekdays(as.POSIXlt(mergeActivity$date, format="%Y-%m-%d"))
 ```
-Set factor variables for Weekend
+Create Day of Week to Type of Day Crosswalk
 ```{r}
-mergeActivity$DayType
+dayOfWeekTbl <- data.frame(cbind(c("Monday", "Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"), c("Weekday", "Weekday", "Weekday", "Weekday", "Weekday","Weekend", "Weekend")))
+names(dayOfWeekTbl) <- c("DayOfWeek", "DayType")
+dayOfWeekTbl
 ```
-
-
-
-Create data frame of avergage steps taken at a time interval accross all days for the new dataset
+Merge Day of Week table with mergeActivity table. 
 ```{r}
-AvgstepsByInterval <-aggregate(mergeActivity$steps, by=list(Category=mergeActivity$interval),FUN=mean)
-names(AvgstepsByInterval) <- c("interval", "steps")
-summary(AvgstepsByInterval)
-str(AvgstepsByInterval)
+mergeActivity <-merge(mergeActivity, dayOfWeekTbl, by.x = "DayOfWeek", by.y="DayOfWeek", all=TRUE)
+summary(mergeActivity)
+str(mergeActivity)
 ```
 

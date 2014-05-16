@@ -280,7 +280,7 @@ summary(stepsByDate)
 <pre><code>## [1] 10765
 </code></pre>
 
-<p>Create data frame of avergage steps taken at a time interval accross all days.</p>
+<p>Create data frame of average steps taken at a time interval accross all days.</p>
 
 <pre><code class="r">AvgstepsByInterval &lt;- aggregate(activityComplete$steps, by = list(Category = activityComplete$interval), 
     FUN = mean)
@@ -406,37 +406,59 @@ summary(stepsByDate)
 <pre><code class="r">mergeActivity$DayOfWeek &lt;- weekdays(as.POSIXlt(mergeActivity$date, format = &quot;%Y-%m-%d&quot;))
 </code></pre>
 
-<p>Set factor variables for Weekend</p>
+<p>Create Day of Week to Type of Day Crosswalk</p>
 
-<pre><code class="r">mergeActivity$DayType
+<pre><code class="r">dayOfWeekTbl &lt;- data.frame(cbind(c(&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, 
+    &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;), c(&quot;Weekday&quot;, &quot;Weekday&quot;, &quot;Weekday&quot;, &quot;Weekday&quot;, 
+    &quot;Weekday&quot;, &quot;Weekend&quot;, &quot;Weekend&quot;)))
+names(dayOfWeekTbl) &lt;- c(&quot;DayOfWeek&quot;, &quot;DayType&quot;)
+dayOfWeekTbl
 </code></pre>
 
-<pre><code>## NULL
+<pre><code>##   DayOfWeek DayType
+## 1    Monday Weekday
+## 2   Tuesday Weekday
+## 3 Wednesday Weekday
+## 4  Thursday Weekday
+## 5    Friday Weekday
+## 6  Saturday Weekend
+## 7    Sunday Weekend
 </code></pre>
 
-<p>Create data frame of avergage steps taken at a time interval accross all days for the new dataset</p>
+<p>Merge Day of Week table with mergeActivity table. </p>
 
-<pre><code class="r">AvgstepsByInterval &lt;- aggregate(mergeActivity$steps, by = list(Category = mergeActivity$interval), 
-    FUN = mean)
-names(AvgstepsByInterval) &lt;- c(&quot;interval&quot;, &quot;steps&quot;)
-summary(AvgstepsByInterval)
+<pre><code class="r">mergeActivity &lt;- merge(mergeActivity, dayOfWeekTbl, by.x = &quot;DayOfWeek&quot;, by.y = &quot;DayOfWeek&quot;, 
+    all = TRUE)
+summary(mergeActivity)
 </code></pre>
 
-<pre><code>##     interval        steps       
-##  Min.   :   0   Min.   :  0.00  
-##  1st Qu.: 589   1st Qu.:  2.49  
-##  Median :1178   Median : 34.11  
-##  Mean   :1178   Mean   : 37.38  
-##  3rd Qu.:1766   3rd Qu.: 52.83  
-##  Max.   :2355   Max.   :206.17
+<pre><code>##   DayOfWeek            interval        steps               date      
+##  Length:17568       Min.   :   0   Min.   :  0.0   2012-10-01:  288  
+##  Class :character   1st Qu.: 589   1st Qu.:  0.0   2012-10-02:  288  
+##  Mode  :character   Median :1178   Median :  0.0   2012-10-03:  288  
+##                     Mean   :1178   Mean   : 37.4   2012-10-04:  288  
+##                     3rd Qu.:1766   3rd Qu.: 27.0   2012-10-05:  288  
+##                     Max.   :2355   Max.   :806.0   2012-10-06:  288  
+##                                                    (Other)   :15840  
+##     DayType     
+##  Weekday:12960  
+##  Weekend: 4608  
+##                 
+##                 
+##                 
+##                 
+## 
 </code></pre>
 
-<pre><code class="r">str(AvgstepsByInterval)
+<pre><code class="r">str(mergeActivity)
 </code></pre>
 
-<pre><code>## &#39;data.frame&#39;:    288 obs. of  2 variables:
-##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
-##  $ steps   : num  1.717 0.3396 0.1321 0.1509 0.0755 ...
+<pre><code>## &#39;data.frame&#39;:    17568 obs. of  5 variables:
+##  $ DayOfWeek: chr  &quot;Friday&quot; &quot;Friday&quot; &quot;Friday&quot; &quot;Friday&quot; ...
+##  $ interval : int  535 1755 915 805 525 1505 1805 645 1410 1925 ...
+##  $ steps    : num  6.06 0 0 68.21 2.96 ...
+##  $ date     : Factor w/ 61 levels &quot;2012-10-01&quot;,&quot;2012-10-02&quot;,..: 61 54 47 40 61 40 54 33 19 26 ...
+##  $ DayType  : Factor w/ 2 levels &quot;Weekday&quot;,&quot;Weekend&quot;: 1 1 1 1 1 1 1 1 1 1 ...
 </code></pre>
 
 </body>
