@@ -101,4 +101,16 @@ mergeActivity <-merge(mergeActivity, dayOfWeekTbl, by.x = "DayOfWeek", by.y="Day
 summary(mergeActivity)
 str(mergeActivity)
 ```
+Create data frame of average steps taken at a time interval accross all days with day type.
+```{r}
+MergedAvgstepsByInterval <-aggregate(mergeActivity$steps, by=list(interval=mergeActivity$interval, DayType=mergeActivity$DayType),FUN=mean)
+names(MergedAvgstepsByInterval) <- c("interval", "DayType", "steps")
+summary(MergedAvgstepsByInterval)
+str(MergedAvgstepsByInterval)
+```
+Create lattice plot Plot
+```{r}
+library(lattice)
+xyplot(steps~interval|DayType, data=MergedAvgstepsByInterval, layout=c(1,2), type="l")
+```
 

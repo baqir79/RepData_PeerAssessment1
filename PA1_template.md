@@ -337,4 +337,44 @@ str(mergeActivity)
 ##  $ DayType  : Factor w/ 2 levels "Weekday","Weekend": 1 1 1 1 1 1 1 1 1 1 ...
 ```
 
+Create data frame of average steps taken at a time interval accross all days with day type.
+
+```r
+MergedAvgstepsByInterval <- aggregate(mergeActivity$steps, by = list(interval = mergeActivity$interval, 
+    DayType = mergeActivity$DayType), FUN = mean)
+names(MergedAvgstepsByInterval) <- c("interval", "DayType", "steps")
+summary(MergedAvgstepsByInterval)
+```
+
+```
+##     interval       DayType        steps       
+##  Min.   :   0   Weekday:288   Min.   :  0.00  
+##  1st Qu.: 589   Weekend:288   1st Qu.:  2.05  
+##  Median :1178                 Median : 28.13  
+##  Mean   :1178                 Mean   : 38.99  
+##  3rd Qu.:1766                 3rd Qu.: 61.26  
+##  Max.   :2355                 Max.   :230.38
+```
+
+```r
+str(MergedAvgstepsByInterval)
+```
+
+```
+## 'data.frame':	576 obs. of  3 variables:
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+##  $ DayType : Factor w/ 2 levels "Weekday","Weekend": 1 1 1 1 1 1 1 1 1 1 ...
+##  $ steps   : num  2.251 0.445 0.173 0.198 0.099 ...
+```
+
+Create lattice plot Plot
+
+```r
+library(lattice)
+xyplot(steps ~ interval | DayType, data = MergedAvgstepsByInterval, layout = c(1, 
+    2), type = "l")
+```
+
+![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 
+
 
